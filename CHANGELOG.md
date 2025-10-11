@@ -4,3 +4,4 @@ All notable changes to PWA Template will be documented in this file. This projec
 
 ## [0.0.0] - 2025-10-11
 - Create base Progressive Web app.
+
