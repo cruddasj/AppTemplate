@@ -4,7 +4,8 @@
     "date": "2025-10-11",
     "changes": [
       "Updated the app interface to use the refreshed logo and increased the navigation padding around it.",
-      "Made settings cards collapsible so details stay hidden until expanded."
+      "Made settings cards collapsible so details stay hidden until expanded.",
+      "Remembered your last expand/collapse choice for each settings card between visits."
     ]
   },
   {

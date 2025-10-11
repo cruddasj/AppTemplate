@@ -7,6 +7,7 @@
     welcomeHidden: 'welcomeDisabled',
     mobileNavSticky: 'mobileNavSticky',
     view: 'activeView',
+    collapsible: 'collapsedCards',
   };
 
   const root = document.documentElement;
@@ -84,16 +85,51 @@
     }
   }
 
+  function loadCollapsedCardState() {
+    const raw = safeGet(LS_KEYS.collapsible);
+    if (!raw) return {};
+    try {
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+      const normalized = {};
+      Object.keys(parsed).forEach((key) => {
+        normalized[key] = !!parsed[key];
+      });
+      return normalized;
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function persistCollapsedCardState(state) {
+    try {
+      safeSet(LS_KEYS.collapsible, JSON.stringify(state));
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
   function initializeCollapsibles() {
     const cards = $$('[data-collapsible]');
     if (!cards.length) return;
+
+    const storedState = loadCollapsedCardState();
+    const knownIds = new Set();
 
     cards.forEach((card) => {
       const trigger = card.querySelector('[data-collapsible-trigger]');
       const content = card.querySelector('[data-collapsible-content]');
       if (!trigger || !content) return;
 
-      const setState = (collapsed, { animate = false } = {}) => {
+      const identifier =
+        card.dataset.collapsibleId ||
+        card.id ||
+        trigger.getAttribute('aria-controls') ||
+        '';
+      const canPersist = identifier.length > 0;
+      if (canPersist) knownIds.add(identifier);
+
+      const setState = (collapsed, { animate = false, persistState = false } = {}) => {
         const expanded = !collapsed;
         trigger.setAttribute('aria-expanded', String(expanded));
         card.classList.toggle('collapsed', collapsed);
@@ -101,10 +137,7 @@
         if (!animate) {
           content.hidden = collapsed;
           content.style.height = '';
-          return;
-        }
-
-        if (collapsed) {
+        } else if (collapsed) {
           const currentHeight = content.scrollHeight;
           content.style.height = `${currentHeight}px`;
           requestAnimationFrame(() => {
@@ -135,19 +168,44 @@
           fallbackId = window.setTimeout(handle, 350);
           content.addEventListener('transitionend', handle, { once: true });
         }
+
+        if (persistState && canPersist) {
+          const normalized = !!collapsed;
+          if (storedState[identifier] !== normalized) {
+            storedState[identifier] = normalized;
+            persistCollapsedCardState(storedState);
+          }
+        }
       };
 
-      const defaultCollapsed =
+      const hasStoredValue =
+        canPersist && Object.prototype.hasOwnProperty.call(storedState, identifier);
+      let defaultCollapsed = false;
+      if (hasStoredValue) {
+        defaultCollapsed = !!storedState[identifier];
+      } else if (
         card.dataset.collapsibleDefault === 'collapsed' ||
-        card.dataset.collapsed === 'true';
+        card.dataset.collapsed === 'true'
+      ) {
+        defaultCollapsed = true;
+      }
 
-      setState(Boolean(defaultCollapsed));
+      setState(defaultCollapsed);
 
       trigger.addEventListener('click', () => {
         const nextCollapsed = !card.classList.contains('collapsed');
-        setState(nextCollapsed, { animate: true });
+        setState(nextCollapsed, { animate: true, persistState: true });
       });
     });
+
+    let pruned = false;
+    Object.keys(storedState).forEach((key) => {
+      if (!knownIds.has(key)) {
+        delete storedState[key];
+        pruned = true;
+      }
+    });
+    if (pruned) persistCollapsedCardState(storedState);
   }
 
   function setSidebarOpen(open) {
