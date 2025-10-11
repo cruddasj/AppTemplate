@@ -676,11 +676,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const storedTheme = safeGet(LS_KEYS.theme);
-    if (storedTheme === '1' || (storedTheme === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      applyDarkMode(true, { persist: false });
-    } else {
-      applyDarkMode(false, { persist: false });
-    }
+    applyDarkMode(storedTheme === '1', { persist: false });
 
     const themeToggle = $('#themeToggle');
     if (themeToggle) {
