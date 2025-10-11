@@ -16,6 +16,59 @@
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => Array.from(document.querySelectorAll(selector));
 
+  const numberFormatter = (() => {
+    try {
+      return new Intl.NumberFormat(undefined, {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 0,
+      });
+    } catch (_) {
+      return null;
+    }
+  })();
+
+  const formatNumber = (value) => {
+    const numeric = typeof value === 'number' ? value : Number(value);
+    if (!Number.isFinite(numeric)) return null;
+    if (numberFormatter) {
+      try {
+        return numberFormatter.format(numeric);
+      } catch (_) {
+        /* ignore */
+      }
+    }
+    return String(Math.round(numeric * 100) / 100);
+  };
+
+  const formatDays = (value) => {
+    const formatted = formatNumber(value);
+    if (!formatted) return null;
+    const numeric = typeof value === 'number' ? value : Number(value);
+    const unit = Math.abs(numeric) === 1 ? 'day' : 'days';
+    return `${formatted} ${unit}`;
+  };
+
+  const formatList = (items) => {
+    const filtered = items
+      .map((item) => (typeof item === 'string' ? item.trim() : ''))
+      .filter(Boolean);
+    if (!filtered.length) return '';
+    if (typeof Intl !== 'undefined' && typeof Intl.ListFormat === 'function') {
+      try {
+        const formatter = new Intl.ListFormat(undefined, {
+          style: 'long',
+          type: 'conjunction',
+        });
+        return formatter.format(filtered);
+      } catch (_) {
+        /* ignore */
+      }
+    }
+    if (filtered.length === 1) return filtered[0];
+    if (filtered.length === 2) return `${filtered[0]} and ${filtered[1]}`;
+    return `${filtered.slice(0, -1).join(', ')}, and ${filtered[filtered.length - 1]}`;
+  };
+
   const safeSet = (key, value) => {
     try {
       localStorage.setItem(key, value);
@@ -33,6 +86,89 @@
   };
 
   let welcomeHiddenState = false;
+
+  function generateLeaveSummary(payload = {}) {
+    const breakdown = Array.isArray(payload.breakdown) ? payload.breakdown : [];
+    const normalized = breakdown
+      .map((entry) => {
+        const label = typeof entry?.label === 'string' ? entry.label.trim() : '';
+        if (!label) return null;
+        const rawDays = entry?.days ?? entry?.value ?? entry?.amount ?? 0;
+        const days = Number(rawDays);
+        return {
+          label,
+          days: Number.isFinite(days) ? days : 0,
+        };
+      })
+      .filter(Boolean);
+
+    const zeroCategories = normalized.filter((entry) => !(entry.days > 0));
+    const positiveCategories = normalized.filter((entry) => entry.days > 0);
+    const sentences = [];
+
+    if (zeroCategories.length) {
+      const zeroLabels = zeroCategories.map((entry) => entry.label.toLowerCase());
+      const zeroList = formatList(zeroLabels);
+      if (zeroList) sentences.push(`No ${zeroList} days.`);
+    }
+
+    if (positiveCategories.length) {
+      const positiveParts = positiveCategories
+        .map((entry) => {
+          const daysText = formatDays(entry.days);
+          if (!daysText) return '';
+          return `${daysText} of ${entry.label.toLowerCase()}`;
+        })
+        .filter(Boolean);
+      const positiveList = formatList(positiveParts);
+      if (positiveList) sentences.push(`${positiveList}.`);
+    }
+
+    const totalParts = [];
+    const totalDaysRaw = payload.totalDays ?? payload.total ?? payload.days;
+    const totalDaysNumeric = Number(totalDaysRaw);
+    const totalDays = Number.isFinite(totalDaysNumeric)
+      ? totalDaysNumeric
+      : positiveCategories.reduce((sum, entry) => sum + entry.days, 0);
+    if (Number.isFinite(totalDays) && totalDays > 0) {
+      const daysText = formatDays(totalDays);
+      if (daysText) totalParts.push(daysText);
+    }
+
+    const hoursRaw = payload.totalHours ?? payload.hours ?? payload.totalHoursWorked;
+    const totalHours = Number(hoursRaw);
+    if (Number.isFinite(totalHours) && totalHours > 0) {
+      const hoursText = formatNumber(totalHours);
+      if (hoursText) totalParts.push(`${hoursText} hours`);
+    }
+
+    if (totalParts.length) {
+      const totalList = formatList(totalParts);
+      if (totalList) sentences.push(`Overall: ${totalList}.`);
+    }
+
+    return sentences.join(' ');
+  }
+
+  function initializeLeaveSummaries() {
+    const targets = document.querySelectorAll('[data-leave-summary]');
+    if (!targets.length) return;
+    targets.forEach((node) => {
+      const raw = node.getAttribute('data-leave-summary');
+      if (!raw) return;
+      let payload = null;
+      try {
+        payload = JSON.parse(raw);
+      } catch (error) {
+        console.error('Unable to parse leave summary payload', error);
+        return;
+      }
+      const text = generateLeaveSummary(payload);
+      if (text) {
+        node.textContent = text;
+      }
+    });
+  }
 
   function applyDarkMode(enabled, { persist = true, withTransition = false } = {}) {
     const shouldEnable = !!enabled;
@@ -802,6 +938,7 @@
       }
     });
 
+    initializeLeaveSummaries();
     initializeCollapsibles();
     renderChangelog();
     updateVersionDisplay();

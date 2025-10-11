@@ -1,5 +1,12 @@
 [
   {
+    "version": "0.0.1",
+    "date": "2025-10-11",
+    "changes": [
+      "Made the 4 day week leave summary combine zero-day allowances and totals into a concise statement."
+    ]
+  },
+  {
     "version": "0.0.0",
     "date": "2025-10-11",
     "changes": [

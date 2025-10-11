@@ -147,6 +147,12 @@
             Welcome
           </span>
         </button>
+        <button class="nav-btn" data-target="fourDayWeek">
+          <span class="flex items-center">
+            <i class="fa-solid fa-calendar-check h-5 w-5 mr-3"></i>
+            4 Day Week
+          </span>
+        </button>
         <button class="nav-btn" data-target="settings">
           <span class="flex items-center">
             <i class="fa-solid fa-sliders-h h-5 w-5 mr-3"></i>
@@ -191,6 +197,24 @@
           </h3>
           <p class="text-gray-700 dark:text-gray-300">
             This simplified build focuses on the core PWA experience so you can install PWA Template, manage its theme, and follow future progress through the built-in changelog.
+          </p>
+        </div>
+      </div>
+
+      <div id="fourDayWeek" class="content-section">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+          4 Day Week
+        </h2>
+        <div class="card">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
+            Leave summary
+          </h3>
+          <p
+            class="text-gray-700 dark:text-gray-300"
+            data-leave-summary='{"breakdown":[{"label":"Core annual leave","days":0},{"label":"Long service leave","days":0},{"label":"Carry over leave","days":0},{"label":"Purchased leave","days":0},{"label":"Bank holidays","days":3}],"totalDays":3,"totalHours":22.2}'
+          ></p>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-3">
+            Example output using the current policy values.
           </p>
         </div>
       </div>
