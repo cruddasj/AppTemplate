@@ -318,6 +318,83 @@
     }
   }
 
+  function showConfirm({
+    message = 'Are you sure?',
+    confirmLabel = 'Confirm',
+    cancelLabel = 'Cancel',
+  } = {}) {
+    return new Promise((resolve) => {
+      const modal = document.getElementById('modal');
+      const modalBody = modal ? modal.querySelector('#modal-body') : null;
+      if (!modal || !modalBody) {
+        const fallback = window.confirm(message);
+        resolve(fallback);
+        return;
+      }
+
+      modalBody.innerHTML = '';
+      const wrapper = document.createElement('div');
+      wrapper.className = 'modal-confirm';
+
+      const text = document.createElement('p');
+      text.textContent = message;
+      wrapper.appendChild(text);
+
+      const actions = document.createElement('div');
+      actions.className = 'modal-actions';
+
+      const confirmButton = document.createElement('button');
+      confirmButton.type = 'button';
+      confirmButton.className = 'btn btn-red';
+      confirmButton.textContent = confirmLabel;
+
+      const cancelButton = document.createElement('button');
+      cancelButton.type = 'button';
+      cancelButton.className = 'btn btn-gray';
+      cancelButton.textContent = cancelLabel;
+
+      actions.appendChild(confirmButton);
+      actions.appendChild(cancelButton);
+      wrapper.appendChild(actions);
+      modalBody.appendChild(wrapper);
+
+      let settled = false;
+      const finalize = (result) => {
+        if (settled) return;
+        settled = true;
+        resolve(result);
+      };
+
+      modalCloseHandler = () => finalize(false);
+      modalReturnFocus =
+        document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+      modal.classList.remove('modal-hidden');
+      modal.setAttribute('aria-hidden', 'false');
+
+      confirmButton.addEventListener('click', () => {
+        if (settled) return;
+        modalCloseHandler = null;
+        closeModal();
+        finalize(true);
+      });
+
+      cancelButton.addEventListener('click', () => {
+        if (settled) return;
+        modalCloseHandler = null;
+        closeModal();
+        finalize(false);
+      });
+
+      const closeButton = modal.querySelector('[data-action="close-modal"]');
+      if (closeButton instanceof HTMLElement) {
+        closeButton.classList.remove('hidden');
+      }
+
+      confirmButton.focus();
+    });
+  }
+
   async function handleAppUpdateRequest(button) {
     if (!button) return;
     const defaultLabel =
@@ -699,7 +776,12 @@
           navigateTo('settings');
           break;
         case 'clear-data':
-          if (window.confirm('This will remove all locally stored PWA Template data. Continue?')) {
+          void showConfirm({
+            message: 'This will erase all locally stored data. Continue?',
+            confirmLabel: 'Confirm',
+            cancelLabel: 'Cancel',
+          }).then((confirmed) => {
+            if (!confirmed) return;
             try {
               localStorage.clear();
             } catch (_) {
@@ -711,7 +793,7 @@
               /* ignore */
             }
             window.location.reload();
-          }
+          });
           break;
         case 'update-app':
           handleAppUpdateRequest(actionTarget);

@@ -344,6 +344,18 @@
   .modal-panel .input-field {
     width: calc(100% - 0.5rem);
   }
+  .modal-confirm {
+    @apply text-center space-y-6;
+  }
+  .modal-confirm p {
+    @apply text-lg font-semibold text-gray-900 dark:text-gray-100;
+  }
+  .modal-confirm .modal-actions {
+    @apply flex justify-center gap-4;
+  }
+  .modal-confirm .modal-actions .btn {
+    @apply px-6 py-2;
+  }
   .modal-hidden {
     @apply hidden;
   }
@@ -610,8 +622,17 @@
 
 /* brand sizing helper (JS sets width to title width on desktop) */
 .nav-logo {
-  padding: 0.75rem;
-  box-sizing: border-box;
+  display: block;
+}
+
+.nav-logo--mobile {
+  width: 2rem;
+  height: 2rem;
+}
+
+#brandLogo {
+  width: 6rem;
+  height: 6rem;
 }
 
 #brandTitle {

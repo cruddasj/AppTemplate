@@ -3,7 +3,8 @@
     "version": "1.1.35",
     "date": "2025-10-11",
     "changes": [
-      "Updated the app interface to use the refreshed logo and increased the navigation padding around it.",
+      "Polished the navigation logo spacing so it now renders about two-thirds of its former size.",
+      "Restyled the Clear Data confirmation dialog with explicit Confirm and Cancel buttons.",
       "Made settings cards collapsible so details stay hidden until expanded.",
       "Remembered your last expand/collapse choice for each settings card between visits."
     ]

@@ -3,7 +3,8 @@
 All notable changes to PWA Template will be documented in this file. This project adheres to a manual release process; update both this file and `assets/changelog.json` when shipping new versions so the in-app update summary stays accurate.
 
 ## [1.1.35] - 2025-10-11
-- Refresh the interface to use the updated app logo across the layout and increase the navigation padding around it.
+- Refresh the interface to use the updated app logo across the layout and tighten the navigation rendering so the mark appears about two-thirds its previous size.
+- Restyle the Clear Data confirmation modal with dedicated confirm and cancel actions.
 - Add collapsible headers to settings cards so details can stay tucked away until needed.
 - Remember whether each settings card was last expanded or collapsed between visits.
 
