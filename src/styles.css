@@ -123,7 +123,18 @@
   .card.is-collapsible > h3,
   .card.is-collapsible > h4 {
     /* Remove horizontal negative margins to avoid page-level overflow */
-    @apply m-0 flex items-center px-6 py-6 rounded-t-2xl cursor-pointer;
+    @apply m-0 px-6 py-6 rounded-t-2xl;
+  }
+  .card.is-collapsible .card-toggle {
+    @apply flex items-center w-full gap-3 text-left;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    padding: 0;
+  }
+  .card.is-collapsible .card-toggle:focus-visible {
+    @apply outline-none ring-2 ring-offset-2 ring-blue-500 ring-offset-white dark:ring-offset-gray-900 rounded-xl;
   }
   .card.is-collapsible .chev {
     @apply ml-auto h-5 w-5 transition-transform duration-200 ease-out;

@@ -4,6 +4,7 @@ All notable changes to PWA Template will be documented in this file. This projec
 
 ## [1.1.35] - 2025-10-11
 - Refresh the interface to use the updated app logo across the layout and increase the navigation padding around it.
+- Add collapsible headers to settings cards so details can stay tucked away until needed.
 
 ## [0.0.0] - 2025-10-11
 - Create base Progressive Web app.

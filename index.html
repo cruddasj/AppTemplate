@@ -200,11 +200,39 @@
         <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">
           Settings
         </h2>
-        <div class="card">
+        <div class="card is-collapsible" data-collapsible>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            Version
+            <button
+              type="button"
+              class="card-toggle"
+              data-collapsible-trigger
+              aria-expanded="true"
+              aria-controls="settings-version-content"
+            >
+              <span>Version</span>
+              <svg
+                class="chev"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M6 8l4 4 4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
           </h3>
-          <div class="space-y-4">
+          <div
+            id="settings-version-content"
+            class="card-body space-y-4"
+            data-collapsible-content
+          >
             <p class="text-sm text-gray-700 dark:text-gray-300">
               PWA Template version
               <span
@@ -228,11 +256,39 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card is-collapsible" data-collapsible>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            Layout Settings
+            <button
+              type="button"
+              class="card-toggle"
+              data-collapsible-trigger
+              aria-expanded="true"
+              aria-controls="settings-layout-content"
+            >
+              <span>Layout Settings</span>
+              <svg
+                class="chev"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M6 8l4 4 4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
           </h3>
-          <div class="space-y-6">
+          <div
+            id="settings-layout-content"
+            class="card-body space-y-6"
+            data-collapsible-content
+          >
             <div>
               <p class="text-gray-700 dark:text-gray-300 text-sm mb-4">
                 Choose a look and feel. Your choice is saved for the next visit.
@@ -278,11 +334,39 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card is-collapsible" data-collapsible>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">
-            Reset App
+            <button
+              type="button"
+              class="card-toggle"
+              data-collapsible-trigger
+              aria-expanded="true"
+              aria-controls="settings-reset-content"
+            >
+              <span>Reset App</span>
+              <svg
+                class="chev"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M6 8l4 4 4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
           </h3>
-          <div class="space-y-4">
+          <div
+            id="settings-reset-content"
+            class="card-body space-y-4"
+            data-collapsible-content
+          >
             <p class="text-gray-700 dark:text-gray-300 text-sm">
               Clear all locally stored data and restart the app.
             </p>
@@ -293,11 +377,39 @@
           </div>
         </div>
 
-        <div id="changelogCard" class="card">
+        <div id="changelogCard" class="card is-collapsible" data-collapsible>
           <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            Changelog
+            <button
+              type="button"
+              class="card-toggle"
+              data-collapsible-trigger
+              aria-expanded="true"
+              aria-controls="settings-changelog-content"
+            >
+              <span>Changelog</span>
+              <svg
+                class="chev"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M6 8l4 4 4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
           </h3>
-          <div class="space-y-4">
+          <div
+            id="settings-changelog-content"
+            class="card-body space-y-4"
+            data-collapsible-content
+          >
             <p class="text-sm text-gray-700 dark:text-gray-300">
               The most recent PWA Template updates appear here.
             </p>

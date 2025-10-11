@@ -84,6 +84,72 @@
     }
   }
 
+  function initializeCollapsibles() {
+    const cards = $$('[data-collapsible]');
+    if (!cards.length) return;
+
+    cards.forEach((card) => {
+      const trigger = card.querySelector('[data-collapsible-trigger]');
+      const content = card.querySelector('[data-collapsible-content]');
+      if (!trigger || !content) return;
+
+      const setState = (collapsed, { animate = false } = {}) => {
+        const expanded = !collapsed;
+        trigger.setAttribute('aria-expanded', String(expanded));
+        card.classList.toggle('collapsed', collapsed);
+
+        if (!animate) {
+          content.hidden = collapsed;
+          content.style.height = '';
+          return;
+        }
+
+        if (collapsed) {
+          const currentHeight = content.scrollHeight;
+          content.style.height = `${currentHeight}px`;
+          requestAnimationFrame(() => {
+            content.style.height = '0px';
+          });
+          let fallbackId;
+          const handle = () => {
+            content.hidden = true;
+            content.style.height = '';
+            content.removeEventListener('transitionend', handle);
+            if (fallbackId) clearTimeout(fallbackId);
+          };
+          fallbackId = window.setTimeout(handle, 350);
+          content.addEventListener('transitionend', handle, { once: true });
+        } else {
+          content.hidden = false;
+          const targetHeight = content.scrollHeight;
+          content.style.height = '0px';
+          requestAnimationFrame(() => {
+            content.style.height = `${targetHeight}px`;
+          });
+          let fallbackId;
+          const handle = () => {
+            content.style.height = '';
+            content.removeEventListener('transitionend', handle);
+            if (fallbackId) clearTimeout(fallbackId);
+          };
+          fallbackId = window.setTimeout(handle, 350);
+          content.addEventListener('transitionend', handle, { once: true });
+        }
+      };
+
+      const defaultCollapsed =
+        card.dataset.collapsibleDefault === 'collapsed' ||
+        card.dataset.collapsed === 'true';
+
+      setState(Boolean(defaultCollapsed));
+
+      trigger.addEventListener('click', () => {
+        const nextCollapsed = !card.classList.contains('collapsed');
+        setState(nextCollapsed, { animate: true });
+      });
+    });
+  }
+
   function setSidebarOpen(open) {
     const sidebar = $('#sidebar');
     const overlay = $('#overlay');
@@ -600,6 +666,7 @@
       }
     });
 
+    initializeCollapsibles();
     renderChangelog();
     updateVersionDisplay();
   });
