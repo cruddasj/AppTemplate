@@ -598,6 +598,11 @@
 }
 
 /* brand sizing helper (JS sets width to title width on desktop) */
+.nav-logo {
+  padding: 0.75rem;
+  box-sizing: border-box;
+}
+
 #brandTitle {
   display: inline-block;
 }
