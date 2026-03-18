@@ -53,7 +53,7 @@
     min-height: calc(100dvh - var(--mobile-header-offset));
     overflow-x: hidden;
     overscroll-behavior-x: contain;
-    overscroll-behavior-y: contain;
+    overscroll-behavior-y: auto;
     /* Keep the scroll container aligned with the page theme so any
        overscroll bounce (vertical or horizontal) doesn't flash white. */
     background-color: inherit;
