@@ -1,7 +1,7 @@
 [
   {
-    "version": "[NEXT_VERSION]",
-    "date": "[NEXT_DATE]",
+    "version": "1.1.37",
+    "date": "2026-03-18",
     "changes": [
       "Fix mobile navigation so vertical scrolling works correctly on phones when the menu is open.",
       "Update automated workflows to improve linting and test coverage reporting in pull requests."
