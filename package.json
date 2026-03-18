@@ -27,7 +27,7 @@
     "jest-environment-jsdom": "^30.3.0",
     "markdownlint-cli2": "^0.21.0",
     "sharp": "^0.33.4",
-    "tailwindcss": "^3.4.14",
+    "tailwindcss": "^3.4.19",
     "yaml-eslint-parser": "^2.0.0"
   },
   "engines": {
