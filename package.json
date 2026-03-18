@@ -4,7 +4,11 @@
   "description": "PWA Template is a personal wealth projection and planning tool built as a single-page application. It helps you capture assets and goals, run forecasts, explore portfolio insights, and maintain historical snapshots.",
   "main": "service-worker.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:e2e": "playwright test",
+    "lint": "npm run lint:js && npm run lint:md",
+    "lint:js": "eslint .",
+    "lint:md": "markdownlint-cli2",
     "build:css": "tailwindcss -i ./src/styles.css -o ./assets/styles.css --minify",
     "watch:css": "tailwindcss -i ./src/styles.css -o ./assets/styles.css --watch",
     "build:icons": "node ./scripts/generate-icons.mjs"
@@ -14,7 +18,20 @@
   "type": "commonjs",
   "homepage": "https://github.com/cruddasj/PWA Template#readme",
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.5.0",
+    "eslint": "^10.0.3",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "eslint-plugin-yml": "^3.3.1",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "markdownlint-cli2": "^0.21.0",
     "sharp": "^0.33.4",
-    "tailwindcss": "^3.4.14"
+    "tailwindcss": "^3.4.14",
+    "yaml-eslint-parser": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
   }
 }
