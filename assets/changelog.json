@@ -1,7 +1,7 @@
 [
   {
-    "version": "[NEXT_VERSION]",
-    "date": "[NEXT_DATE]",
+    "version": "1.1.38",
+    "date": "2026-03-18",
     "changes": [
       "Align dark mode styling with WealthTrack so the app feels consistent when using night mode.",
       "Update npm dependencies to the latest compatible patch and minor versions.",

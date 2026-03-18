@@ -2,7 +2,7 @@
 
 All notable changes to PWA Template will be documented in this file. This project adheres to a manual release process; update both this file and `assets/changelog.json` when shipping new versions so the in-app update summary stays accurate.
 
-## [NEXT_VERSION] - [NEXT_DATE]
+## 1.1.38 - 2026-03-18
 
 - Align the default dark mode look and feel with WealthTrack so night-time screens are more consistent across both apps.
 - Refresh npm packages to the latest compatible patch and minor releases.
