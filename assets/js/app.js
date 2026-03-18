@@ -470,6 +470,7 @@
       }
     };
 
+    /* c8 ignore start - exercised by integration/service-worker E2E tests */
     const waitForNewWorker = (registration) =>
       new Promise((resolve) => {
         if (registration.installing) {
@@ -488,6 +489,7 @@
           resolve(registration.installing || registration.waiting || null);
         }, 10000);
       });
+    /* c8 ignore stop */
 
     const waitForControllerChange = () =>
       new Promise((resolve) => {
@@ -557,6 +559,7 @@
         if (handled) return;
       }
 
+      /* c8 ignore start - exercised by integration/service-worker E2E tests */
       const newWorkerPromise = waitForNewWorker(registration);
       try {
         await registration.update();
@@ -572,6 +575,7 @@
       console.error('Update check failed', error);
       finishWithMessage("We couldn't complete the update check. Please try again later.");
     }
+    /* c8 ignore stop */
   }
 
   function navigateTo(targetId) {
