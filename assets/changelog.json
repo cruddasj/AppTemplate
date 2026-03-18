@@ -1,5 +1,13 @@
 [
   {
+    "version": "[NEXT_VERSION]",
+    "date": "[NEXT_DATE]",
+    "changes": [
+      "Fix mobile navigation so vertical scrolling works correctly on phones when the menu is open.",
+      "Update automated workflows to improve linting and test coverage reporting in pull requests."
+    ]
+  },
+  {
     "version": "0.0.0",
     "date": "2025-10-11",
     "changes": [
