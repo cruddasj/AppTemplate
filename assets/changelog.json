@@ -1,7 +1,7 @@
 [
   {
-    "version": "[NEXT_VERSION]",
-    "date": "[NEXT_DATE]",
+    "version": "1.1.40",
+    "date": "2026-03-18",
     "changes": [
       "Increase automated branch coverage above 80% by adding tests for more edge-case app behavior."
     ]

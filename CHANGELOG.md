@@ -2,7 +2,7 @@
 
 All notable changes to PWA Template will be documented in this file. This project adheres to a manual release process; update both this file and `assets/changelog.json` when shipping new versions so the in-app update summary stays accurate.
 
-## [NEXT_VERSION] - [NEXT_DATE]
+## 1.1.40 - 2026-03-18
 
 - Expand automated test coverage for additional edge cases so branch coverage now exceeds the 80% minimum target.
 
